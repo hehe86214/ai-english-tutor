@@ -16,6 +16,34 @@ const CATEGORY_LABELS: Record<string, string> = {
   other: "其他",
 };
 
+function CardShell({
+  tone,
+  icon,
+  title,
+  children,
+}: {
+  tone: "amber" | "leaf";
+  icon: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  const head =
+    tone === "amber" ? "bg-amber-soft text-amber border-amber/25" : "bg-leaf-soft text-leaf border-leaf/25";
+  return (
+    <div
+      className={`animate-rise w-full overflow-hidden rounded-3xl border-2 bg-surface shadow-[0_12px_30px_-18px_rgb(30_31_85/0.35)] ${
+        tone === "amber" ? "border-amber/30" : "border-leaf/30"
+      }`}
+    >
+      <div className={`flex items-center gap-2 border-b-2 px-4 py-2.5 ${head}`}>
+        <span className="text-base leading-none">{icon}</span>
+        <span className="text-[13px] font-black tracking-wide">{title}</span>
+      </div>
+      {children}
+    </div>
+  );
+}
+
 export function GrammarCard({
   corrected,
   issues,
@@ -24,29 +52,27 @@ export function GrammarCard({
   issues: GrammarIssue[];
 }) {
   return (
-    <div className="animate-rise w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_1px_2px_rgb(0_0_0/0.04)]">
-      <div className="flex items-center gap-2 border-b border-line bg-amber-soft/60 px-4 py-2.5">
-        <span className="size-1.5 rounded-full bg-amber" />
-        <span className="text-xs font-semibold tracking-wide text-amber">文法糾正</span>
-      </div>
+    <CardShell tone="amber" icon="✏️" title="文法糾正">
       <div className="space-y-3 px-4 py-3.5 text-sm">
         {issues.length === 0 ? (
-          <p className="text-muted">這句沒有文法問題，說得很好。</p>
+          <p className="font-bold text-leaf">👍 這句沒有文法問題，說得很好！</p>
         ) : (
           <>
             {corrected && (
-              <p className="text-[15px] leading-relaxed text-ink">{corrected}</p>
+              <p className="text-[15px] leading-relaxed font-bold text-ink">{corrected}</p>
             )}
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
               {issues.map((issue) => (
-                <li key={issue.id} className="rounded-xl bg-sunken/70 px-3 py-2.5">
+                <li key={issue.id} className="rounded-2xl bg-sunken px-3.5 py-2.5">
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <span className="rounded-md bg-surface px-1.5 py-0.5 text-[11px] text-muted ring-1 ring-line">
+                    <span className="rounded-full bg-amber px-2 py-0.5 text-[11px] font-black text-white">
                       {CATEGORY_LABELS[issue.category] ?? issue.category}
                     </span>
-                    <span className="text-rose line-through decoration-rose/50">{issue.original}</span>
-                    <span className="text-faint">→</span>
-                    <span className="font-medium text-accent">{issue.corrected}</span>
+                    <span className="font-semibold text-rose line-through decoration-2 decoration-rose/50">
+                      {issue.original}
+                    </span>
+                    <span className="font-black text-faint">→</span>
+                    <span className="font-black text-leaf">{issue.corrected}</span>
                   </div>
                   <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{issue.explanation}</p>
                 </li>
@@ -55,7 +81,7 @@ export function GrammarCard({
           </>
         )}
       </div>
-    </div>
+    </CardShell>
   );
 }
 
@@ -67,15 +93,11 @@ export function SuggestionCard({
   explanation: string;
 }) {
   return (
-    <div className="animate-rise w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_1px_2px_rgb(0_0_0/0.04)]">
-      <div className="flex items-center gap-2 border-b border-line bg-accent-soft/70 px-4 py-2.5">
-        <span className="size-1.5 rounded-full bg-accent" />
-        <span className="text-xs font-semibold tracking-wide text-accent">更好的說法</span>
-      </div>
+    <CardShell tone="leaf" icon="✨" title="更好的說法">
       <div className="px-4 py-3.5">
-        <p className="font-display text-[19px] leading-snug text-ink">“{improved}”</p>
+        <p className="text-[17px] leading-snug font-black text-ink">“{improved}”</p>
         <p className="mt-2 text-[13px] leading-relaxed text-muted">{explanation}</p>
       </div>
-    </div>
+    </CardShell>
   );
 }

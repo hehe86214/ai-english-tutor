@@ -19,7 +19,7 @@ export default function LogoutButton() {
     <button
       onClick={logout}
       disabled={loading}
-      className="rounded-lg px-3 py-1.5 text-muted transition hover:bg-sunken hover:text-ink disabled:opacity-50"
+      className="rounded-full border-2 border-line px-3.5 py-1.5 font-bold text-muted transition hover:border-accent hover:text-accent disabled:opacity-50"
     >
       登出
     </button>

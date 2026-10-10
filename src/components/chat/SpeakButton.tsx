@@ -18,7 +18,7 @@ export default function SpeakButton({
       onClick={() => speak(text)}
       aria-label="朗讀"
       title="朗讀"
-      className={`grid size-7 shrink-0 place-items-center rounded-full text-faint transition hover:bg-sunken hover:text-accent ${className}`}
+      className={`grid size-8 shrink-0 place-items-center rounded-full bg-sun-soft text-flame transition hover:bg-sun hover:text-sun-ink ${className}`}
     >
       <svg viewBox="0 0 24 24" fill="none" className="size-4" aria-hidden>
         <path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />

@@ -1,41 +1,66 @@
 @import "tailwindcss";
 
-/* 設計 tokens：暖白紙感 + 墨綠主色 */
+/* 設計 tokens：深海軍藍主色 + 陽光黃、活力橘、清新綠點綴 */
 :root {
-  --paper: #f6f3ec;
-  --surface: #fffdf9;
-  --sunken: #efeae0;
-  --ink: #1c1a17;
-  --muted: #6d675e;
-  --faint: #a29b90;
-  --line: #e4ddd1;
-  --accent: #1f4d3a;
-  --accent-hover: #173d2e;
-  --accent-ink: #f6f3ec;
-  --accent-soft: #e2ebe4;
-  --amber: #9a6200;
-  --amber-soft: #f8eed8;
-  --rose: #b0413a;
-  --rose-soft: #f7e3df;
+  --paper: #f3f4f9;
+  --surface: #ffffff;
+  --sunken: #eef0f7;
+  --ink: #1e1f55;
+  --muted: #5b6087;
+  --faint: #9a9fbd;
+  --line: #e1e4f0;
+  --dot: #cfd3e3;
+
+  --accent: #2b2a8c;
+  --accent-hover: #201f72;
+  --accent-ink: #ffffff;
+  --accent-soft: #e8e8fb;
+
+  --sun: #ffc531;
+  --sun-ink: #2b1f00;
+  --sun-soft: #fff4d3;
+  --flame: #ff7a2f;
+  --flame-soft: #ffeadc;
+  --leaf: #1fae68;
+  --leaf-soft: #dcf4e7;
+  --coral: #f2552c;
+
+  /* 文法糾正、錯誤提示 */
+  --amber: #d96a00;
+  --amber-soft: #fff0dc;
+  --rose: #e2434b;
+  --rose-soft: #fde6e7;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #12110f;
-    --surface: #1b1916;
-    --sunken: #23201c;
-    --ink: #f3efe7;
-    --muted: #aaa397;
-    --faint: #6f695f;
-    --line: #2f2b26;
-    --accent: #86c9a3;
-    --accent-hover: #9fd6b6;
-    --accent-ink: #10201a;
-    --accent-soft: #1c2c24;
-    --amber: #e6b766;
-    --amber-soft: #2b2416;
-    --rose: #ee8f84;
-    --rose-soft: #2f1c19;
+    --paper: #0e1030;
+    --surface: #171a45;
+    --sunken: #1f2353;
+    --ink: #f2f3ff;
+    --muted: #a8acd4;
+    --faint: #6d72a3;
+    --line: #2a2e64;
+    --dot: #252a5c;
+
+    --accent: #9290ff;
+    --accent-hover: #a9a7ff;
+    --accent-ink: #0e1030;
+    --accent-soft: #252862;
+
+    --sun: #ffc531;
+    --sun-ink: #2b1f00;
+    --sun-soft: #3a3214;
+    --flame: #ff8a45;
+    --flame-soft: #3b2517;
+    --leaf: #3dd08a;
+    --leaf-soft: #143a2a;
+    --coral: #ff7650;
+
+    --amber: #ffb054;
+    --amber-soft: #3a2a14;
+    --rose: #ff7a7f;
+    --rose-soft: #3a1c23;
   }
 }
 
@@ -51,18 +76,38 @@
   --color-accent-hover: var(--accent-hover);
   --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
+  --color-sun: var(--sun);
+  --color-sun-ink: var(--sun-ink);
+  --color-sun-soft: var(--sun-soft);
+  --color-flame: var(--flame);
+  --color-flame-soft: var(--flame-soft);
+  --color-leaf: var(--leaf);
+  --color-leaf-soft: var(--leaf-soft);
+  --color-coral: var(--coral);
   --color-amber: var(--amber);
   --color-amber-soft: var(--amber-soft);
   --color-rose: var(--rose);
   --color-rose-soft: var(--rose-soft);
 
-  --font-sans: var(--font-geist-sans), var(--font-noto-sans-tc), ui-sans-serif,
-    system-ui, sans-serif;
-  --font-display: var(--font-instrument-serif), var(--font-noto-serif-tc), serif;
+  --font-sans: var(--font-nunito), var(--font-noto-sans-tc), ui-sans-serif, system-ui,
+    sans-serif;
+  --font-display: var(--font-nunito), var(--font-noto-sans-tc), ui-sans-serif, sans-serif;
   --font-mono: var(--font-geist-mono);
 
   --animate-rise: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-dot: dot 1.2s ease-in-out infinite;
+}
+
+/* 點點背景 */
+@utility bg-dots {
+  background-color: var(--paper);
+  background-image: radial-gradient(var(--dot) 1.4px, transparent 1.4px);
+  background-size: 24px 24px;
+}
+
+/* 黃→橘的主視覺漸層（標語、主要按鈕） */
+@utility bg-sunrise {
+  background-image: linear-gradient(100deg, var(--sun) 0%, var(--flame) 100%);
 }
 
 @keyframes rise {
@@ -95,7 +140,7 @@ body {
 }
 
 ::selection {
-  background: var(--accent-soft);
+  background: var(--sun-soft);
 }
 
 @media (prefers-reduced-motion: reduce) {

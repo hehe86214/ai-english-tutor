@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import {
-  Geist,
-  Geist_Mono,
-  Instrument_Serif,
-  Noto_Sans_TC,
-  Noto_Serif_TC,
-} from "next/font/google";
+import { Geist_Mono, Noto_Sans_TC, Nunito } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// 英文：圓潤、有份量的 Nunito
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
+  weight: ["400", "600", "700", "800", "900"],
+});
+
+// 中文字型檔很大，不預載，交給瀏覽器依需要下載
+const notoSansTC = Noto_Sans_TC({
+  variable: "--font-noto-sans-tc",
+  weight: ["400", "500", "700", "900"],
+  preload: false,
 });
 
 const geistMono = Geist_Mono({
@@ -18,37 +21,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// 英文標題用的襯線字
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-});
-
-// 中文字型檔很大，不預載，交給瀏覽器依需要下載
-const notoSansTC = Noto_Sans_TC({
-  variable: "--font-noto-sans-tc",
-  weight: ["400", "500", "700"],
-  preload: false,
-});
-
-const notoSerifTC = Noto_Serif_TC({
-  variable: "--font-noto-serif-tc",
-  weight: ["500", "700"],
-  preload: false,
-});
-
 export const metadata: Metadata = {
   title: "AI 英文家教",
-  description: "選一個生活場景，用英文跟 AI 對話，隨時看文法糾正和更好的說法。",
+  description: "CEFR 系統化教材 + AI 老師一對一，隨時開口練英文，看文法糾正和更好的說法。",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="zh-Hant"
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} ${notoSansTC.variable} ${notoSerifTC.variable} h-full antialiased`}
+      className={`${nunito.variable} ${notoSansTC.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-paper font-sans text-ink">
         {children}

@@ -29,47 +29,49 @@ async function SessionHistory({ params }: { params: Promise<{ id: string }> }) {
   return (
     <>
       <AppHeader user={user} />
-      <main className="mx-auto w-full max-w-3xl px-4 pt-10 pb-20 sm:px-6">
+      <main className="flex-1 bg-dots">
+       <div className="mx-auto w-full max-w-3xl px-4 pt-10 pb-20 sm:px-6">
         <Link
           href="/history"
-          className="inline-flex items-center gap-1 text-sm text-muted transition hover:text-ink"
+          className="inline-flex items-center gap-1 rounded-full border-2 border-line bg-surface px-4 py-1.5 text-sm font-bold text-muted transition hover:border-sun hover:text-ink"
         >
           ← 練習紀錄
         </Link>
         <div className="mt-6 flex items-center gap-4">
-          <span className="grid size-14 place-items-center rounded-2xl bg-surface text-3xl ring-1 ring-line">
+          <span className="grid size-16 place-items-center rounded-2xl bg-sun text-3xl shadow-[0_10px_22px_-10px_var(--flame)]">
             {session.emoji}
           </span>
           <div>
-            <h1 className="font-display text-4xl leading-tight">{session.scenarioLabel}</h1>
-            <p className="text-sm text-muted">
+            <h1 className="font-display text-4xl leading-tight font-black text-accent dark:text-ink">{session.scenarioLabel}</h1>
+            <p className="text-sm font-bold text-muted">
               {formatDateTime(session.createdAt)} · {session.messages.length} 則對話
               {feedbackCount > 0 && ` · ${feedbackCount} 筆糾錯／建議`}
             </p>
           </div>
         </div>
 
-        <div className="mt-10 space-y-5 border-t border-line pt-8">
+        <div className="mt-8 space-y-5 rounded-[28px] border-2 border-line bg-surface/70 p-4 sm:p-6">
           {session.messages.map((m) =>
             m.role === "user" ? (
               <div key={m.id} className="flex flex-col items-end gap-2">
-                <div className="max-w-[78%] rounded-3xl rounded-br-md bg-accent px-4 py-3 text-[15px] leading-relaxed whitespace-pre-wrap text-accent-ink">
+                <div className="max-w-[78%] rounded-[26px] rounded-br-md bg-accent px-4 py-3 text-[15px] leading-relaxed font-semibold whitespace-pre-wrap text-accent-ink">
                   {m.content}
                 </div>
                 {m.feedback.length > 0 && <FeedbackList items={m.feedback} />}
               </div>
             ) : (
               <div key={m.id} className="flex items-end gap-3">
-                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-sunken text-base">
+                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-sun text-base">
                   {session.emoji}
                 </span>
-                <div className="max-w-[78%] rounded-3xl rounded-bl-md border border-line bg-surface px-4 py-3 text-[15px] leading-relaxed whitespace-pre-wrap">
+                <div className="max-w-[78%] rounded-[26px] rounded-bl-md border-2 border-line bg-surface px-4 py-3 text-[15px] leading-relaxed font-semibold whitespace-pre-wrap">
                   {m.content}
                 </div>
               </div>
             ),
           )}
         </div>
+       </div>
       </main>
     </>
   );

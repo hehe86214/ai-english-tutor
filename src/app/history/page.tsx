@@ -23,22 +23,24 @@ async function History() {
   return (
     <>
       <AppHeader user={user} />
-      <main className="mx-auto w-full max-w-3xl px-4 pt-12 pb-20 sm:px-6">
-        <p className="text-xs font-medium tracking-[0.2em] text-accent uppercase">History</p>
-        <div className="mt-3 flex items-end justify-between gap-4">
-          <h1 className="font-display text-4xl sm:text-5xl">練習紀錄</h1>
+      <main className="flex-1 bg-dots">
+       <div className="mx-auto w-full max-w-4xl px-4 pt-12 pb-20 sm:px-6">
+        <p className="text-sm font-black tracking-[0.2em] text-flame uppercase">History</p>
+        <div className="mt-2 flex items-end justify-between gap-4">
+          <h1 className="font-display text-5xl font-black text-accent sm:text-6xl dark:text-ink">練習紀錄</h1>
           {sessions.length > 0 && (
-            <p className="pb-1.5 text-sm text-muted">共 {sessions.length} 場</p>
+            <p className="mb-2 rounded-full bg-sun px-4 py-1.5 text-sm font-black text-sun-ink">共 {sessions.length} 場</p>
           )}
         </div>
 
         {sessions.length === 0 ? (
-          <div className="mt-10 rounded-3xl border border-dashed border-line px-6 py-16 text-center">
-            <p className="font-display text-2xl">還沒有練習紀錄</p>
-            <p className="mt-2 text-sm text-muted">完成第一場對話後，紀錄會出現在這裡。</p>
+          <div className="mt-10 rounded-[28px] border-2 border-dashed border-line bg-surface px-6 py-16 text-center">
+            <p className="text-4xl">📒</p>
+            <p className="mt-3 font-display text-2xl font-black">還沒有練習紀錄</p>
+            <p className="mt-2 text-sm font-medium text-muted">完成第一場對話後，紀錄會出現在這裡。</p>
             <Link
               href="/lessons"
-              className="mt-6 inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-ink transition hover:bg-accent-hover"
+              className="mt-6 inline-flex rounded-full bg-sunrise px-6 py-3 font-black text-white shadow-[0_12px_28px_-12px_var(--flame)] transition hover:-translate-y-0.5"
             >
               去上第一堂課 →
             </Link>
@@ -49,35 +51,35 @@ async function History() {
               <li key={s.id}>
                 <Link
                   href={`/history/${s.id}`}
-                  className="group flex items-center gap-4 rounded-2xl border border-line bg-surface p-4 transition hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_10px_30px_-14px_rgb(0_0_0/0.2)] sm:p-5"
+                  className="group flex items-center gap-4 rounded-[24px] border-2 border-line bg-surface p-4 transition hover:-translate-y-0.5 hover:border-sun hover:shadow-[0_18px_40px_-24px_rgb(30_31_85/0.5)] sm:p-5"
                 >
-                  <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-sunken text-2xl">
+                  <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-sun-soft text-2xl">
                     {s.emoji}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="flex items-center gap-2 font-semibold">
+                    <p className="flex items-center gap-2 text-lg font-black">
                       {s.scenarioLabel}
                       <span
-                        className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${
-                          s.isLesson ? "bg-accent-soft text-accent" : "bg-sunken text-muted"
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-black ${
+                          s.isLesson ? "bg-accent text-accent-ink" : "bg-leaf text-white"
                         }`}
                       >
                         {s.isLesson ? "教材課程" : "情境對話"}
                       </span>
                     </p>
-                    <p className="mt-0.5 text-xs text-muted">{formatDateTime(s.createdAt)}</p>
+                    <p className="mt-0.5 text-xs font-bold text-muted">{formatDateTime(s.createdAt)}</p>
                   </div>
-                  <div className="hidden gap-2 text-xs sm:flex">
-                    <span className="rounded-full bg-sunken px-2.5 py-1 text-muted">
+                  <div className="hidden gap-2 text-xs font-black sm:flex">
+                    <span className="rounded-full bg-sunken px-3 py-1 text-muted">
                       {s.messageCount} 則對話
                     </span>
                     {s.feedbackCount > 0 && (
-                      <span className="rounded-full bg-amber-soft px-2.5 py-1 text-amber">
+                      <span className="rounded-full bg-amber-soft px-3 py-1 text-amber">
                         {s.feedbackCount} 筆糾錯／建議
                       </span>
                     )}
                   </div>
-                  <span className="text-faint transition group-hover:translate-x-0.5 group-hover:text-accent">
+                  <span className="grid size-9 place-items-center rounded-full bg-sunken font-black text-faint transition group-hover:translate-x-0.5 group-hover:bg-sun group-hover:text-sun-ink">
                     →
                   </span>
                 </Link>
@@ -85,6 +87,7 @@ async function History() {
             ))}
           </ul>
         )}
+       </div>
       </main>
     </>
   );
