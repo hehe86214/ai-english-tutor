@@ -1,6 +1,6 @@
 import { requireUser } from "@/lib/auth";
 import { findUserMessage } from "@/lib/feedback";
-import { chatJSON } from "@/lib/claude";
+import { chatJSON } from "@/lib/ai";
 import { FeedbackModel } from "@/models/Feedback";
 
 type ImproveResult = {
@@ -14,7 +14,7 @@ Keep the learner's original meaning and intent, fix any mistakes, and add a litt
 - "improved": the better reply in English.
 - "explanation": briefly explain in Traditional Chinese (繁體中文) why this version is better and which expressions are worth learning.`;
 
-// 讓 Claude 一定照這個格式回傳 JSON
+// 讓 AI 一定照這個格式回傳 JSON
 const SCHEMA = {
   type: "object",
   properties: {

@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose";
 import { requireUser } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
-import { chat } from "@/lib/claude";
+import { chat } from "@/lib/ai";
 import { resolvePracticeMode } from "@/lib/practice-mode";
 import { PracticeSessionModel } from "@/models/PracticeSession";
 

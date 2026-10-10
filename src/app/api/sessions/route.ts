@@ -1,7 +1,7 @@
 import { requireUser } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
 import { getLesson } from "@/content/lessons";
-import { chat } from "@/lib/claude";
+import { chat } from "@/lib/ai";
 import { LESSON_SCENARIO, resolvePracticeMode } from "@/lib/practice-mode";
 import { getScenario } from "@/lib/scenarios";
 import { PracticeSessionModel } from "@/models/PracticeSession";

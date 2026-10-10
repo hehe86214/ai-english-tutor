@@ -1,5 +1,5 @@
 import { getCourse, getLesson, LEVELS, type Lesson } from "@/content/lessons";
-import { buildSystemPrompt, OPENING_PROMPT } from "@/lib/claude";
+import { buildSystemPrompt, OPENING_PROMPT } from "@/lib/ai";
 import { getScenario } from "@/lib/scenarios";
 
 // 練習有兩種：情境對話（scenario）和教材課程（lesson）
@@ -60,6 +60,7 @@ function buildLessonPrompt(lesson: Lesson) {
     "How to teach:",
     `- Speak English at a ${lesson.level} level. Keep each turn short: 1 to 3 sentences, then wait for the student.`,
     "- Ask one question at a time and let the student do most of the talking.",
+    "- Write plain text only. Do not use Markdown (no **bold**, headings, or bullet lists).",
     "- Encourage the student to use the target phrases and vocabulary. If they don't, model the phrase and ask them to try again.",
     "- If the student makes a mistake that changes the meaning, briefly recast the correct sentence in a natural way, then continue. Don't explain grammar at length; the student has separate correction tools.",
     "- During role-plays, stay in your role; you may step out briefly to give a tip.",

@@ -1,6 +1,6 @@
 import { requireUser } from "@/lib/auth";
 import { findUserMessage } from "@/lib/feedback";
-import { chatJSON } from "@/lib/claude";
+import { chatJSON } from "@/lib/ai";
 import { FeedbackModel } from "@/models/Feedback";
 
 const CATEGORIES = ["grammar", "vocabulary", "spelling", "expression", "other"];
@@ -22,7 +22,7 @@ Only fix real mistakes. Keep the learner's meaning and style; do not rewrite sen
 - "issues": one item per mistake. "original" is the wrong part copied from the learner's sentence, "corrected" is the fixed part, and "explanation" briefly explains why in Traditional Chinese (繁體中文).
 If there are no mistakes, return an empty "issues" array.`;
 
-// 讓 Claude 一定照這個格式回傳 JSON
+// 讓 AI 一定照這個格式回傳 JSON
 const SCHEMA = {
   type: "object",
   properties: {
