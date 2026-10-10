@@ -1,6 +1,6 @@
 import { isValidObjectId } from "mongoose";
 import { connectDB } from "@/lib/mongodb";
-import { getScenario } from "@/lib/scenarios";
+import { resolvePracticeMode } from "@/lib/practice-mode";
 import { PracticeSessionModel } from "@/models/PracticeSession";
 
 // 前後文最多帶幾則訊息給 OpenAI 參考
@@ -43,7 +43,7 @@ export async function findUserMessage(
   return {
     session,
     message,
-    scenarioLabel: getScenario(session.scenario)?.label ?? session.scenario,
+    scenarioLabel: resolvePracticeMode(session)?.label ?? session.scenario,
     context,
   };
 }

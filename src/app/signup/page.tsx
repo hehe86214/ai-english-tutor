@@ -13,6 +13,6 @@ export default function Page() {
 
 // 已經登入就直接回練習頁
 async function RedirectIfLoggedIn() {
-  if (await getCurrentUser()) redirect("/practice");
+  if (await getCurrentUser()) redirect("/lessons");
   return <AuthForm mode="signup" />;
 }

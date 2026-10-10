@@ -1,16 +1,17 @@
 import Link from "next/link";
 import Brand from "@/components/Brand";
 import { GrammarCard, SuggestionCard } from "@/components/FeedbackCards";
+import { COURSES, LESSONS, LEVELS } from "@/content/lessons";
 import { SCENARIOS } from "@/lib/scenarios";
 
 const STEPS = [
   {
-    title: "選一個場景",
-    body: "點餐、面試、機場、開會……AI 會扮演對應的角色，先開口問你第一句。",
+    title: "選一堂課",
+    body: "依程度挑選教材，先預習單字、句型和範例對話，每一句都能聽發音。",
   },
   {
-    title: "用英文回答",
-    body: "像真的在對話一樣打字回覆。說錯沒關係，對方只會自然地把話題接下去。",
+    title: "跟 AI 老師上課",
+    body: "老師照上課流程一步步帶你練習，可以打字，也可以直接用麥克風說英文。",
   },
   {
     title: "看怎麼說更好",
@@ -23,6 +24,7 @@ export default function LandingPage() {
     <div className="overflow-x-hidden">
       <SiteNav />
       <Hero />
+      <Curriculum />
       <Scenarios />
       <HowItWorks />
       <Features />
@@ -43,6 +45,7 @@ function SiteNav() {
       <nav className="mx-auto flex h-16 max-w-6xl items-center gap-8 px-4 sm:px-6">
         <Brand />
         <div className="hidden items-center gap-6 text-sm text-muted md:flex">
+          <a href="#curriculum" className="transition hover:text-ink">教材</a>
           <a href="#scenarios" className="transition hover:text-ink">場景</a>
           <a href="#how" className="transition hover:text-ink">怎麼練</a>
           <a href="#features" className="transition hover:text-ink">功能</a>
@@ -82,7 +85,7 @@ function Hero() {
             <span className="italic text-accent">說出口。</span>
           </h1>
           <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted">
-            選一個生活場景，AI 扮演店員、面試官、同事或朋友跟你對話。每一句都能請它糾正文法、給你更自然的說法——不怕說錯，越說越好。
+            依 CEFR 等級編排的系統化教材，加上 AI 老師一對一帶你上課。預習單字和句型、跟著範例對話開口，每一句都能看文法糾正和更自然的說法。
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link
@@ -101,9 +104,9 @@ function Hero() {
           </div>
           <dl className="mt-12 grid max-w-md grid-cols-3 gap-6 border-t border-line pt-6">
             {[
-              ["8", "種生活場景"],
-              ["即時", "文法糾正"],
-              ["永久", "保存紀錄"],
+              [String(LESSONS.length), "堂系統化課程"],
+              ["A1–B2", "四個等級"],
+              ["24/7", "隨時開課"],
             ].map(([value, label]) => (
               <div key={label}>
                 <dt className="font-display text-3xl">{value}</dt>
@@ -172,6 +175,59 @@ function HeroDemo() {
         </div>
       </div>
     </div>
+  );
+}
+
+function Curriculum() {
+  return (
+    <section id="curriculum" className="scroll-mt-16 border-t border-line">
+      <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+        <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+          <SectionHeading
+            eyebrow="Curriculum"
+            title={
+              <>
+                從入門到進階，<span className="italic">有系統地學</span>
+              </>
+            }
+            body="每堂課都有明確的學習目標、單字、關鍵句型和範例對話，上完課自動記錄進度。"
+          />
+          <div className="flex flex-wrap gap-2">
+            {LEVELS.map((l) => (
+              <span key={l.id} className="rounded-full border border-line bg-surface px-3 py-1.5 text-sm">
+                <span className="font-semibold">{l.id}</span>
+                <span className="ml-1.5 text-muted">{l.label}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {COURSES.map((course) => {
+            const lessons = LESSONS.filter((l) => l.courseId === course.id);
+            const levels = [...new Set(lessons.map((l) => l.level))].join(" · ");
+            return (
+              <div key={course.id} className="rounded-3xl border border-line bg-surface p-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-3xl">{course.emoji}</span>
+                  <span className="rounded-full bg-sunken px-2.5 py-1 text-xs text-muted">{levels}</span>
+                </div>
+                <p className="mt-5 text-lg font-semibold">{course.title}</p>
+                <p className="font-display text-lg text-muted italic">{course.titleEn}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{course.description}</p>
+                <ul className="mt-5 space-y-1.5 border-t border-line pt-4 text-sm">
+                  {lessons.map((l, i) => (
+                    <li key={l.id} className="flex gap-2">
+                      <span className="text-faint">{i + 1}.</span>
+                      {l.title}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 

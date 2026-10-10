@@ -6,14 +6,20 @@ import LogoutButton from "./LogoutButton";
 export default function AppHeader({ user }: { user: CurrentUser }) {
   return (
     <header className="sticky top-0 z-20 border-b border-line bg-paper/85 backdrop-blur-md">
-      <nav className="mx-auto flex h-14 w-full max-w-5xl items-center gap-6 px-4 sm:px-6">
-        <Brand href="/practice" />
-        <div className="flex items-center gap-1 text-sm">
+      <nav className="mx-auto flex h-14 w-full max-w-5xl items-center gap-3 px-4 sm:gap-6 sm:px-6">
+        <Brand href="/lessons" />
+        <div className="flex items-center gap-0.5 text-sm sm:gap-1">
+          <Link
+            href="/lessons"
+            className="rounded-lg px-3 py-1.5 text-muted transition hover:bg-sunken hover:text-ink"
+          >
+            教材
+          </Link>
           <Link
             href="/practice"
             className="rounded-lg px-3 py-1.5 text-muted transition hover:bg-sunken hover:text-ink"
           >
-            練習
+            情境對話
           </Link>
           <Link
             href="/history"

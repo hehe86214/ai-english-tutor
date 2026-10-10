@@ -20,6 +20,8 @@ const practiceSessionSchema = new Schema(
     title: { type: String, default: "" },
     // 練習情境，例如 "ordering coffee"、"job interview"
     scenario: { type: String, default: "free talk" },
+    // 教材課程的 lesson id（scenario 為 "lesson" 時才有）
+    lesson: { type: String },
     level: {
       type: String,
       enum: ["beginner", "intermediate", "advanced"],

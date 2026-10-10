@@ -1,8 +1,8 @@
 import { isValidObjectId } from "mongoose";
 import { requireUser } from "@/lib/auth";
 import { connectDB } from "@/lib/mongodb";
-import { buildSystemPrompt, chat, OPENING_PROMPT } from "@/lib/claude";
-import { getScenario } from "@/lib/scenarios";
+import { chat } from "@/lib/claude";
+import { resolvePracticeMode } from "@/lib/practice-mode";
 import { PracticeSessionModel } from "@/models/PracticeSession";
 
 const MAX_LENGTH = 1000;
@@ -42,16 +42,16 @@ export async function POST(
     return Response.json({ error: "這場練習已經結束" }, { status: 409 });
   }
 
-  const scenario = getScenario(session.scenario);
-  if (!scenario) {
-    return Response.json({ error: "未知的練習場景" }, { status: 400 });
+  const mode = resolvePracticeMode(session);
+  if (!mode) {
+    return Response.json({ error: "未知的練習場景或教材" }, { status: 400 });
   }
 
   let reply: string;
   try {
-    reply = await chat(buildSystemPrompt(scenario.persona), [
+    reply = await chat(mode.systemPrompt, [
       // 對話紀錄是 AI 先開口，前面補上當初請它開場的那句
-      { role: "user", content: OPENING_PROMPT },
+      { role: "user", content: mode.openingPrompt },
       ...session.messages
         .filter((m) => m.role !== "system")
         .map((m) => ({ role: m.role as "user" | "assistant", content: m.content })),

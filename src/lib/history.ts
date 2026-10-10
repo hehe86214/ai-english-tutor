@@ -1,6 +1,6 @@
 import { isValidObjectId, Types } from "mongoose";
 import { connectDB } from "@/lib/mongodb";
-import { getScenario } from "@/lib/scenarios";
+import { LESSON_SCENARIO, resolvePracticeMode } from "@/lib/practice-mode";
 import { FeedbackModel } from "@/models/Feedback";
 import { PracticeSessionModel } from "@/models/PracticeSession";
 
@@ -10,6 +10,7 @@ export type SessionSummary = {
   id: string;
   scenarioLabel: string;
   emoji: string;
+  isLesson: boolean;
   messageCount: number;
   feedbackCount: number;
   createdAt: Date;
@@ -29,11 +30,12 @@ export async function listMySessions(userId: string): Promise<SessionSummary[]> 
   const countBySession = new Map(counts.map((c) => [String(c._id), c.count]));
 
   return sessions.map((s) => {
-    const scenario = getScenario(s.scenario);
+    const mode = resolvePracticeMode(s);
     return {
       id: s._id.toString(),
-      scenarioLabel: scenario?.label ?? s.scenario,
-      emoji: scenario?.emoji ?? "💬",
+      scenarioLabel: mode?.label ?? s.scenario,
+      emoji: mode?.emoji ?? "💬",
+      isLesson: s.scenario === LESSON_SCENARIO,
       messageCount: s.messages.length,
       feedbackCount: countBySession.get(s._id.toString()) ?? 0,
       createdAt: s.createdAt,
@@ -99,11 +101,11 @@ export async function getMySession(
     feedbackByMessage.set(key, list);
   }
 
-  const scenario = getScenario(session.scenario);
+  const mode = resolvePracticeMode(session);
   return {
     id: session._id.toString(),
-    scenarioLabel: scenario?.label ?? session.scenario,
-    emoji: scenario?.emoji ?? "💬",
+    scenarioLabel: mode?.label ?? session.scenario,
+    emoji: mode?.emoji ?? "💬",
     createdAt: session.createdAt,
     messages: session.messages
       .filter((m) => m.role !== "system")
@@ -114,4 +116,33 @@ export async function getMySession(
         feedback: feedbackByMessage.get(m._id.toString()) ?? [],
       })),
   };
+}
+
+export type LessonProgress = Record<
+  string,
+  { completed: boolean; sessionCount: number }
+>;
+
+// 每一課的學習狀態：上過幾次、有沒有完成過
+export async function getMyLessonProgress(userId: string): Promise<LessonProgress> {
+  await connectDB();
+  const rows = await PracticeSessionModel.aggregate<{
+    _id: string;
+    sessionCount: number;
+    completed: boolean;
+  }>([
+    // aggregate 不會自動轉型，要自己把字串轉成 ObjectId
+    { $match: { user: new Types.ObjectId(userId), scenario: LESSON_SCENARIO } },
+    {
+      $group: {
+        _id: "$lesson",
+        sessionCount: { $sum: 1 },
+        completed: { $max: { $eq: ["$status", "completed"] } },
+      },
+    },
+  ]);
+
+  return Object.fromEntries(
+    rows.map((r) => [r._id, { completed: r.completed, sessionCount: r.sessionCount }]),
+  );
 }

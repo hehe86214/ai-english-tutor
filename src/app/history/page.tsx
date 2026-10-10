@@ -37,10 +37,10 @@ async function History() {
             <p className="font-display text-2xl">還沒有練習紀錄</p>
             <p className="mt-2 text-sm text-muted">完成第一場對話後，紀錄會出現在這裡。</p>
             <Link
-              href="/practice"
+              href="/lessons"
               className="mt-6 inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-ink transition hover:bg-accent-hover"
             >
-              去練習一場 →
+              去上第一堂課 →
             </Link>
           </div>
         ) : (
@@ -55,7 +55,16 @@ async function History() {
                     {s.emoji}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="font-semibold">{s.scenarioLabel}</p>
+                    <p className="flex items-center gap-2 font-semibold">
+                      {s.scenarioLabel}
+                      <span
+                        className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${
+                          s.isLesson ? "bg-accent-soft text-accent" : "bg-sunken text-muted"
+                        }`}
+                      >
+                        {s.isLesson ? "教材課程" : "情境對話"}
+                      </span>
+                    </p>
                     <p className="mt-0.5 text-xs text-muted">{formatDateTime(s.createdAt)}</p>
                   </div>
                   <div className="hidden gap-2 text-xs sm:flex">

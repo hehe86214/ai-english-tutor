@@ -14,7 +14,7 @@ export default function Brand({ href = "/" }: { href?: string }) {
           <path d="M9 9.5h6M9 12h3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
         </svg>
       </span>
-      <span className="text-[15px] font-semibold tracking-tight">AI 英文家教</span>
+      <span className="hidden text-[15px] font-semibold tracking-tight min-[420px]:inline">AI 英文家教</span>
     </Link>
   );
 }

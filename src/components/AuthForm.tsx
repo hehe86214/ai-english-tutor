@@ -24,7 +24,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      router.replace("/practice");
+      router.replace("/lessons");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "發生錯誤");
